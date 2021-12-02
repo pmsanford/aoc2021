@@ -1,3 +1,5 @@
 **/input.txt
 **/test.txt
 **/*.input
+**/*.hi
+**/*.o

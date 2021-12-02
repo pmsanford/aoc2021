@@ -1,0 +1,15 @@
+-- AOC 2021 Day {{day_number}}
+import System.Environment
+import Data.List
+
+loadRun :: String -> IO ()
+loadRun filePath = do
+  fileCont <- readFile filePath
+  let fileLines = lines fileCont
+  let result = "Result"
+  putStrLn result
+  
+main :: IO ()
+main = do
+  args <- getArgs 
+  loadRun (head args)

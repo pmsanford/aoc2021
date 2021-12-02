@@ -1,0 +1,12 @@
+test:
+	runghc Day{{day_number}}.hs test.input
+
+solve:
+	runghc Day{{day_number}}.hs main.input
+
+build: Day{{day_number}}.hs
+	ghc -outputdir ./build Day{{day_number}}
+
+clean:
+	rm ./build/*.hi ./build/*.o Day{{day_number}}
+	rmdir build
