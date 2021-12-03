@@ -1,4 +1,4 @@
-import GHC.IO.IOMode (IOMode(ReadMode))
+import GHC.IO.IOMode (IOMode (ReadMode))
 import System.IO (openFile, putStrLn)
 import Prelude hiding (putStrLn)
 
@@ -12,7 +12,7 @@ countIncreasesI :: Int -> [Int] -> Int -> Int
 countIncreasesI prev xs count = if null xs then count else countIncreasesI (head xs) (tail xs) (countIncrease prev xs count)
 
 countFileIncreases :: String -> Int
-countFileIncreases xs = countIncreases (map (read::String->Int) (lines xs))
+countFileIncreases xs = countIncreases (map (read :: String -> Int) (lines xs))
 
 main :: IO ()
 main = do

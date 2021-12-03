@@ -1,9 +1,10 @@
 -- AOC 2021 Day 2
-import System.Environment
+
 import Data.List
+import System.Environment
 
 parseSnd :: [String] -> (String, Int)
-parseSnd xs = (head xs, (read::String->Int) (head (tail xs)))
+parseSnd xs = (head xs, (read :: String -> Int) (head (tail xs)))
 
 advanceSub :: (String, Int) -> (Int, Int, Int) -> (Int, Int, Int)
 advanceSub cmd (aim, xpos, ypos)
@@ -33,4 +34,3 @@ main :: IO ()
 main = do
   args <- getArgs
   loadRun (head args)
-
