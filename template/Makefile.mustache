@@ -1,12 +1,11 @@
 test:
-	runghc Day{{day_number}}.hs test.input
+	cabal run --verbose=0 Day{{day_number}} -- test.input
 
 solve:
-	runghc Day{{day_number}}.hs main.input
+	cabal run --verbose=0 Day{{day_number}} -- main.input
 
-build: Day{{day_number}}.hs
-	ghc -outputdir ./build Day{{day_number}}
+build: app/Main.hs
+	cabal build Day{{day_number}}
 
 clean:
-	rm ./build/*.hi ./build/*.o Day{{day_number}}
-	rmdir build
+	cabal clean

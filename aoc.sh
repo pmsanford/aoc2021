@@ -19,16 +19,17 @@ if [ ! -d "day$DAY.1" ]
     FOLDER="$FOLDER.1"
     #cp -an template/structure $FOLDER
     mkdir $FOLDER
-    day_number=$NUMBER mustache ENV template/Day.mustache > "$FOLDER/Day$NUMBER.hs"
+    pushd $FOLDER && cabal init -n -a "Paul Sanford" -p "Day$NUMBER" && rm CHANGELOG.md && popd
+    day_number=$NUMBER mustache ENV template/Day.mustache > "$FOLDER/app/Main.hs"
     day_number=$NUMBER mustache ENV template/Makefile.mustache > "$FOLDER/Makefile"
-    pushd $FOLDER && make build && make clean && popd
+    pushd $FOLDER && cabal build && cabal clean && popd
     echo "Scaffolded folder $FOLDER"
   elif [ ! -d "day$DAY.2" ]
   then
     FROM="$FOLDER.1"
     TO="$FOLDER.2"
     cp -an $FROM $TO
-    pushd $TO && make build && make clean && popd
+    pushd $TO && cabal build && cabal clean && popd
     echo "Copied $FROM to $TO"
   else
     echo "Both folders exist!"
