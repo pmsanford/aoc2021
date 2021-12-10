@@ -17,13 +17,13 @@ type Cmp = (Int -> Int -> Bool)
 
 prefCmp :: Int -> Cmp -> Int -> ([[Int]], [[Int]]) -> [[Int]]
 prefCmp idx cmp pref (x1, x2)
-  | x1l == x2l = pickPref
+  | x1l == x2l && x1v == pref = x1
   | cmp x1l x2l = x1
   | otherwise = x2
   where
     x1l = length x1
     x2l = length x2
-    pickPref = if head x1 !! idx == pref then x1 else x2
+    x1v = head x1 !! idx
 
 filterAt :: Int -> Cmp -> Int -> [[Int]] -> [[Int]]
 filterAt idx cmp pref xs = prefCmp idx cmp pref (partitionAt idx xs)
