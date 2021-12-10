@@ -7,5 +7,14 @@ solve:
 build: app/Main.hs
 	cabal build Day{{day_number}}
 
+snap:
+	cabal run --verbose=0 Day{{day_number}} -- test.input > Day{{day_number}}.snap
+	cabal run --verbose=0 Day{{day_number}} -- main.input >> Day{{day_number}}.snap
+
+check:
+	cabal run --verbose=0 Day{{day_number}} -- test.input > Day{{day_number}}.out
+	cabal run --verbose=0 Day{{day_number}} -- main.input >> Day{{day_number}}.out
+	diff Day{{day_number}}.snap Day{{day_number}}.out && rm Day{{day_number}}.out
+
 clean:
 	cabal clean

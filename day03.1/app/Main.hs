@@ -1,7 +1,8 @@
 -- AOC 2021 Day 3
-import System.Environment
-import Data.List
+
 import Data.Char
+import Data.List
+import System.Environment
 
 parseBin :: String -> Int
 parseBin = foldl' (\acc x -> acc * 2 + digitToInt x) 0
@@ -12,11 +13,15 @@ listToBin = foldl' (\acc x -> acc * 2 + x) 0
 posSums :: [String] -> [Int]
 posSums fileLines = map sum (transpose (map (map digitToInt) fileLines))
 
-gamma :: [String] -> Int 
-gamma fileLines = listToBin (map (\v -> if v > div (length fileLines) 2 then 1 else 0) (posSums fileLines))
+gamma :: [String] -> Int
+gamma fileLines = listToBin (map moreThanHalf (posSums fileLines))
+  where
+    moreThanHalf v = if v > div (length fileLines) 2 then 1 else 0
 
-epsilon :: [String] -> Int 
-epsilon fileLines = listToBin (map (\v -> if v <= div (length fileLines) 2 then 1 else 0) (posSums fileLines))
+epsilon :: [String] -> Int
+epsilon fileLines = listToBin (map lessThanHalf (posSums fileLines))
+  where
+    lessThanHalf v = if v <= div (length fileLines) 2 then 1 else 0
 
 loadRun :: String -> IO ()
 loadRun filePath = do
@@ -30,4 +35,3 @@ main :: IO ()
 main = do
   args <- getArgs
   loadRun (head args)
-
