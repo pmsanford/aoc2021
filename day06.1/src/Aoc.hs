@@ -1,10 +1,11 @@
 module Aoc where
+
 import Data.List.Split
 
 type Fish = Int
 
 initFish :: [String] -> [Fish]
-initFish xs = map (read::(String->Int)) (splitOn "," (head xs))
+initFish xs = map (read :: (String -> Int)) (splitOn "," (head xs))
 
 tick :: [Fish] -> [Fish]
 tick (cur : xs)
@@ -18,4 +19,3 @@ tickFor days fish = tickFor (days - 1) (tick fish)
 
 solve :: [String] -> Int
 solve fileLines = length $ Aoc.tickFor 80 (initFish fileLines)
-
