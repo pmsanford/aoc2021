@@ -19,9 +19,12 @@ if [ ! -d "day$DAY.1" ]
     FOLDER="$FOLDER.1"
     #cp -an template/structure $FOLDER
     mkdir $FOLDER
-    pushd $FOLDER && cabal init -n -a "Paul Sanford" -p "Day$NUMBER" && rm CHANGELOG.md && popd
+    pushd $FOLDER && cabal init -n -a "Paul Sanford" -p "Day$NUMBER" --libandexe && rm CHANGELOG.md && popd
     day_number=$NUMBER mustache ENV template/Day.mustache > "$FOLDER/app/Main.hs"
+    day_number=$NUMBER mustache ENV template/Lib.mustache > "$FOLDER/src/Aoc.hs"
+    sed -i 's/MyLib/Aoc/g' "$FOLDER/Day$NUMBER.cabal"
     day_number=$NUMBER mustache ENV template/Makefile.mustache > "$FOLDER/Makefile"
+    pushd $FOLDER && cabal-edit add $(<../template/deps.txt) && popd
     pushd $FOLDER && cabal build && cabal clean && popd
     echo "Scaffolded folder $FOLDER"
   elif [ ! -d "day$DAY.2" ]

@@ -2,6 +2,8 @@
 import System.Environment
 import Data.List
 
+import Aoc
+
 loadLines :: String -> IO [String]
 loadLines filePath = do
   fileCont <- readFile filePath
@@ -9,9 +11,8 @@ loadLines filePath = do
 
 loadRun :: String -> IO ()
 loadRun filePath = do
-  let fileLines = loadLines filePath
-  let result = "Result"
-  putStrLn result
+  fileLines <- loadLines filePath
+  print $ Aoc.solve fileLines
   
 main :: IO ()
 main = do
