@@ -1,19 +1,22 @@
 {-# LANGUAGE TupleSections #-}
--- AOC 2021 Day 4
-import System.Environment
-import Data.List
-import Data.List.Split (splitOn, chunksOf)
-import qualified Data.IntSet as Set
-import Data.Maybe
 
-type Board = ([[Cell]], Bool)
+-- AOC 2021 Day 4
+
+import qualified Data.IntSet as Set
+import Data.List
+import Data.List.Split (chunksOf, splitOn)
+import Data.Maybe
+import System.Environment
+
+type Board = ([[Cell]], Maybe Int)
+
 type Cell = (Int, Bool)
 
 boardToInt :: [String] -> [[Int]]
-boardToInt = map (map (read::(String->Int)) . words)
+boardToInt = map (map (read :: (String -> Int)) . words)
 
 toCells :: [Int] -> [Cell]
-toCells = map (, False)
+toCells = map (,False)
 
 markCell :: Int -> Cell -> Cell
 markCell draw (cont, val)
@@ -22,36 +25,40 @@ markCell draw (cont, val)
 
 markBoard :: Int -> Board -> Board
 markBoard draw (cells, won)
-  | won = (cells', won)
-  | otherwise = (cells', isWinner (cells', won))
-  where cells' = map (map (markCell draw)) cells
+  | isJust won = (cells', won)
+  | isWinner (cells', won) = (cells', Just draw)
+  | otherwise = (cells', Nothing)
+  where
+    cells' = map (map (markCell draw)) cells
 
 markCells :: Int -> [Board] -> [Board]
 markCells draw = map (markBoard draw)
 
 isWinner :: Board -> Bool
 isWinner (cells, _) = isWinner' cells || isWinner' (transpose cells)
-  where isWinner' = any (all snd)
+  where
+    isWinner' = any (all snd)
 
 createCells :: [String] -> [[[Cell]]]
 createCells xs = map (map toCells . boardToInt) (chunksOf 5 (filterSpaces xs))
-  where filterSpaces = filter (/= "")
+  where
+    filterSpaces = filter (/= "")
 
 makeBoard :: [[Cell]] -> Board
-makeBoard = (, False)
+makeBoard = (,Nothing)
 
 parseBoards :: [String] -> ([Int], [Board])
-parseBoards (numbers : xs) = (map (read::(String->Int)) (splitOn "," numbers), map makeBoard (createCells xs))
-
+parseBoards (numbers : xs) = (map (read :: (String -> Int)) (splitOn "," numbers), map makeBoard (createCells xs))
 parseBoards [] = ([], [])
 
 firstWinner :: [Int] -> [Board] -> Maybe (Int, Board)
 firstWinner (curr : numbers) boards
-  | isJust winner = Just (curr, fromJust winner)
+  | allWon = Just (curr, fromJust winner)
   | otherwise = firstWinner numbers updated
-  where updated = markCells curr boards
-        winner = find isWinner updated
-
+  where
+    updated = markCells curr boards
+    winner = find (\(_, x) -> x == Just curr) updated
+    allWon = all (\(_, x) -> isJust x) updated
 firstWinner [] _ = Nothing
 
 calcScore :: (Int, Board) -> Int
@@ -71,7 +78,6 @@ loadRun :: String -> IO ()
 loadRun filePath = do
   (numbers, boards) <- loadBoards filePath
   let winner = fromJust $ firstWinner numbers boards
-  print winner
   let result = calcScore winner
   print result
 
@@ -79,4 +85,3 @@ main :: IO ()
 main = do
   args <- getArgs
   loadRun (head args)
-
