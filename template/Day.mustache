@@ -2,10 +2,14 @@
 import System.Environment
 import Data.List
 
+loadLines :: String -> IO [String]
+loadLines filePath = do
+  fileCont <- readFile filePath
+  return $ lines fileCont
+
 loadRun :: String -> IO ()
 loadRun filePath = do
-  fileCont <- readFile filePath
-  let fileLines = lines fileCont
+  let fileLines = loadLines filePath
   let result = "Result"
   putStrLn result
   
