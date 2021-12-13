@@ -19,7 +19,7 @@ loadCsvInts filePath = do
   return $ map (read :: (String -> Int)) (splitOn "," fileCont)
 
 calcDistance :: Int -> [Int] -> Int
-calcDistance point = foldl (\acc pos -> acc + abs (pos - point)) 0
+calcDistance point = foldl (\acc pos -> acc + sum [1 .. abs (pos - point)]) 0
 
 mode :: [Int] -> Int
 mode positions = sort positions !! (length positions `div` 2)
