@@ -1,0 +1,24 @@
+cabal-version:      2.4
+name:               Day7
+version:            0.1.0.0
+maintainer:         me@paulsanford.net
+author:             Paul Sanford
+extra-source-files: CHANGELOG.md
+
+library
+    exposed-modules:  Aoc
+    hs-source-dirs:   src
+    default-language: Haskell2010
+    build-depends:
+        base ^>=4.14.3.0,
+        containers ^>=0.6,
+        regex-tdfa ^>=1.3,
+        split ^>=0.2
+
+executable Day7
+    main-is:          Main.hs
+    hs-source-dirs:   app
+    default-language: Haskell2010
+    build-depends:
+        base ^>=4.14.3.0,
+        Day7 -any
