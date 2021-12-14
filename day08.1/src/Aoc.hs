@@ -1,4 +1,5 @@
 module Aoc where
+
 import Data.List.Split
 
 countSegs :: [String] -> Int
@@ -14,7 +15,5 @@ loadRun filePath = do
   fileLines <- loadLines filePath
   print $ Aoc.solve fileLines
 
-
 solve :: [String] -> Int
 solve = countSegs
-

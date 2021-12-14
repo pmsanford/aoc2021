@@ -1,10 +1,11 @@
 -- AOC 2021 Day 8
+import System.Environment
+import Data.List
 
 import Aoc
-import Data.List
-import System.Environment
 
 main :: IO ()
 main = do
-  args <- getArgs
+  args <- getArgs 
   loadRun (head args)
+
