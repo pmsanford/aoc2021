@@ -1,5 +1,9 @@
 module Aoc where
 
-
 solve :: [String] -> Int
 solve fileLines = 0
+
+loadLines :: String -> IO [String]
+loadLines filePath = do
+  fileCont <- readFile filePath
+  return $ lines fileCont

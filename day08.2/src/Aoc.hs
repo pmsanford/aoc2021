@@ -1,7 +1,8 @@
 module Aoc where
+
+import Data.List
 import Data.List.Split
 import qualified Data.Map.Strict as Map
-import Data.List
 import Data.Maybe
 
 type Sieve = [String] -> String
@@ -64,9 +65,9 @@ loadRun filePath = do
 
 solveLine :: ([String], [String]) -> Int
 solveLine (wires, disp) = buildInt $ map ((`Map.lookup` decoder) . sort) disp
-  where decoder = buildDecoder wires
-        buildInt justs = (read::(String -> Int)) (concatMap fromJust justs)
+  where
+    decoder = buildDecoder wires
+    buildInt justs = (read :: (String -> Int)) (concatMap fromJust justs)
 
 solve :: [([String], [String])] -> Int
 solve inputs = sum $ map solveLine inputs
-
